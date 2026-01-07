@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     DB_CONFIG: str
     DB_ECHO: bool = False
     
+    # Logging
+    LOG_LEVEL: str = "INFO"
+    
     # Security / JWT Config
     SECRET_KEY: str
     ALGORITHM: str = "HS256"

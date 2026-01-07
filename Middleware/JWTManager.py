@@ -3,6 +3,10 @@ from datetime import datetime, timedelta, timezone
 import jwt
 from settings import settings
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class JWTManager:
 
     @staticmethod
@@ -23,6 +27,8 @@ class JWTManager:
             decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
             return decoded
         except jwt.ExpiredSignatureError:
+            logger.warning("Intento de uso de token expirado")
             raise ValueError("Token expired")
-        except jwt.InvalidTokenError:
+        except jwt.InvalidTokenError as e:
+            logger.warning(f"Intento de uso de token inválido: {e}")
             raise ValueError("Invalid token")

@@ -11,6 +11,11 @@ from Graphql.query import Query
 from Graphql.mutation import Mutation
 
 from strawberry.fastapi import GraphQLRouter
+from logging_config import configure_logging, get_logger
+
+# Configurar logging al inicio
+configure_logging()
+logger = get_logger(__name__)
 
 def init_app():
     apps = FastAPI(
@@ -29,10 +34,13 @@ def init_app():
 
     @apps.on_event("startup")
     async def startup():
-        await db.create_all()
+        logger.info("Iniciando aplicación y conectando a base de datos...")
+        # await db.create_all()
+        pass
 
     @apps.on_event("shutdown")
     async def shutdown():
+        logger.info("Cerrando conexión a base de datos...")
         await db.close()
 
     @apps.get("/")
