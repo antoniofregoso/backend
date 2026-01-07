@@ -1,6 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import strawberry
+from sqlalchemy.sql import text
 
 from config import db
 
@@ -16,6 +19,14 @@ def init_app():
         version="0.0.1",
     )
 
+    apps.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Allows all origins
+        allow_credentials=True,
+        allow_methods=["*"],  # Allows all methods
+        allow_headers=["*"],  # Allows all headers
+    )
+
     @apps.on_event("startup")
     async def startup():
         await db.create_all()
@@ -27,6 +38,18 @@ def init_app():
     @apps.get("/")
     def root():
         return {"message": "Hello World"}
+
+    @apps.get("/health")
+    async def health_check():
+        try:
+            async with db as session:
+                await session.execute(text("SELECT 1"))
+            return {"status": "healthy", "database": "online"}
+        except Exception as e:
+            return JSONResponse(
+                status_code=503,
+                content={"status": "unhealthy", "database": "offline", "error": str(e)}
+            )
     
     schema = strawberry.Schema(query=Query, mutation=Mutation)
     graphql_app = GraphQLRouter(schema)

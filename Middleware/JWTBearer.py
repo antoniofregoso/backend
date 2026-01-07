@@ -9,7 +9,7 @@ class IsAuthenticated(BasePermission):
 
     def has_permission(self, source: typing.Any, info: Info, **kwargs) -> bool:
         request = info.context["request"]
-        authentication = request.headers.get("Authentication")
+        authentication = request.headers.get("Authorization")
 
         if authentication:
             token = authentication.split("Bearer ")[1]

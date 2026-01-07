@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+strawberry-graphql[fastapi]
+sqlmodel
+python-dotenv
+pyjwt
+passlib[argon2]
+aiosqlite
+pydantic-settings
+asyncpg

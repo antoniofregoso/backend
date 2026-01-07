@@ -13,8 +13,10 @@ class NoteService:
         return NoteType(**note.dict())
 
     @staticmethod
-    async def get_all():
-        notes = await NoteRepository.get_all()
+    async def get_all(limit: int = 10, offset: int = 0):
+        if limit > 100:
+            limit = 100
+        notes = await NoteRepository.get_all(limit, offset)
         return [NoteType(**note.dict()) for note in notes]
 
     @staticmethod

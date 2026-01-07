@@ -13,9 +13,9 @@ class NoteRepository:
             return note
 
     @staticmethod
-    async def get_all():
+    async def get_all(limit: int = 10, offset: int = 0):
         async with db as session:
-            query = select(Note)
+            query = select(Note).offset(offset).limit(limit)
             result = await session.execute(query)
             return result.scalars().all()
 

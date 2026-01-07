@@ -11,8 +11,8 @@ class Query:
         return "Hello, world!"
     
     @strawberry.field(permission_classes=[IsAuthenticated])
-    async def get_all_notes(self) -> list[NoteType]:
-        return await NoteService.get_all()
+    async def get_all_notes(self, limit: int = 10, offset: int = 0) -> list[NoteType]:
+        return await NoteService.get_all(limit, offset)
 
     @strawberry.field(permission_classes=[IsAuthenticated])
     async def get_note_by_id(self, id: int) -> NoteType | None:

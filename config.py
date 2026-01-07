@@ -1,19 +1,13 @@
-import os   
-
 from sqlalchemy.ext.asyncio import  AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import text
 
 from sqlmodel import SQLModel
-from dotenv import load_dotenv
-
-load_dotenv() 
-
-DB_CONFIG = os.getenv('DB_CONFIG')
+from settings import settings
 
 class DatabaseSession:
-    def __init__(self,url:str=DB_CONFIG):
-        self.engine = create_async_engine(url, echo=True)
+    def __init__(self,url:str=settings.DB_CONFIG):
+        self.engine = create_async_engine(url, echo=settings.DB_ECHO)
         self.SessionLocal = sessionmaker(
             bind=self.engine,
             class_=AsyncSession,
