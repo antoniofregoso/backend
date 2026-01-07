@@ -66,3 +66,17 @@ Si prefieres ejecutarlo en tu máquina (requiere Python 3.10+ y una base de dato
 *   **DB Migrations**: Alembic (Async)
 *   **Auth**: JWT + Argon2
 *   **Settings**: Pydantic Settings
+
+## 📝 Logging y Observabilidad
+
+El backend cuenta con un sistema de logging estructurado. Puedes controlar el nivel de detalle mediante la variable de entorno `LOG_LEVEL`.
+
+**Niveles Disponibles:**
+*   `DEBUG`: Máximo detalle (para desarrollo local).
+*   `INFO`: Información general del funcionamiento (Recomendado por defecto).
+*   `WARNING`: Solo advertencias (ej. intentos de login fallidos).
+*   `ERROR`: Solo errores críticos.
+
+**Cómo cambiarlo:**
+*   **Docker**: Edita `docker-compose.yml` y cambia `LOG_LEVEL=INFO`.
+*   **Local**: Añade `LOG_LEVEL=DEBUG` a tu archivo `.env`.
